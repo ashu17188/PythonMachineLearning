@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug  5 17:39:46 2019
+
+@author: Ashutosh Shukla
+https://elitedatascience.com/python-seaborn-tutorial
+https://pandas.pydata.org/pandas-docs/stable/getting_started/10min.html
+https://www.kaggle.com/kanncaa1/seaborn-tutorial-for-beginners  
+"""
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/administrator/Work/Java_Projects/PythonMachineLearning/datasets/Pokemon.csv',encoding = 'unicode_escape',index_col=0);
+
+
+
+sns_plot= sns.countplot(x='Type 1',data=df)
+sns_plot.get_figure().savefig("/home/administrator/Work/Java_Projects/PythonMachineLearning/GraphPic/Seaborn_CountPlot.png")
+
+#['Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense',
+#       'Sp. Atk', 'Sp. Def', 'Speed', 'Stage', 'Legendary'],
+#      dtype='object')
