@@ -13,13 +13,52 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('/home/administrator/Work/Java_Projects/PythonMachineLearning/datasets/Pokemon.csv',encoding = 'unicode_escape',index_col=0);
+from subprocess import check_output
+print(check_output(["ls", "../datasets"]).decode("utf8"))
 
+medianHouseHoldIncome = pd.read_csv('../datasets/MedianHouseholdIncome2015.csv', encoding="windows-1252");
 
+percentagePeopleBelowPovertyLevel=pd.read_csv('../datasets/PercentagePeopleBelowPovertyLevel.csv', encoding="windows-1252");
 
-sns_plot= sns.countplot(x='Type 1',data=df)
-sns_plot.get_figure().savefig("/home/administrator/Work/Java_Projects/PythonMachineLearning/GraphPic/Seaborn_CountPlot.png")
+percentageOver25CompletedHighSchool = pd.read_csv('../datasets/PercentOver25CompletedHighSchool.csv', encoding="windows-1252");
 
-#['Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense',
-#       'Sp. Atk', 'Sp. Def', 'Speed', 'Stage', 'Legendary'],
-#      dtype='object')
+shareRaceByCity=pd.read_csv('../datasets/ShareRaceByCity.csv', encoding="windows-1252");
+
+policeKillingsUs=pd.read_csv('../datasets/PoliceKillingsUS.csv', encoding="windows-1252");
+
+## Data visualization for percentagePeopleBelowPovertyLevel
+print(percentagePeopleBelowPovertyLevel.info())
+
+percentagePeopleBelowPovertyLevel.poverty_rate.replace(['-'],0.0,inplace=True);
+percentagePeopleBelowPovertyLevel.poverty_rate = percentagePeopleBelowPovertyLevel.poverty_rate.astype(float)
+
+area_list= list(percentagePeopleBelowPovertyLevel['Geographic Area'].unique())
+area_poverty_ratio=[];
+
+for i in area_list:
+    x= percentagePeopleBelowPovertyLevel[percentagePeopleBelowPovertyLevel['Geographic Area']==i]
+    area_poverty_rate= sum(x.poverty_rate)/len(x)
+    area_poverty_ratio.append(area_poverty_rate );    
+    
+data= pd.DataFrame({'area_list':area_list,'area_poverty_ratio':area_poverty_ratio});
+print(data.head())
+
+#visualisation
+#plt.figure(figsize=(15,10))
+sns.barplot(x="area_list",y="area_poverty_ratio",data=data)   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

@@ -7,4 +7,16 @@ those arrays. Using NumPy, mathematical and logical operations on arrays
 can be performed. 
 """
 
-adfa
+import numpy as np
+import pandas as pd 
+import seaborn as sns
+
+#1.Creata a Dataframe from numpy arrays
+dates = pd.date_range(20191010,periods=6)
+print(df)
+
+df= pd.DataFrame(np.random.randn(6,4),index=dates,
+             columns=list('ABCD'))
+
+print(df)
+sns.countplot(x='A',data=df)
