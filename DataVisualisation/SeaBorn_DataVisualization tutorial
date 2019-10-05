@@ -7,12 +7,18 @@ Created on Mon Aug  5 17:39:46 2019
 https://elitedatascience.com/python-seaborn-tutorial
 https://pandas.pydata.org/pandas-docs/stable/getting_started/10min.html
 https://www.kaggle.com/kanncaa1/seaborn-tutorial-for-beginners  
+https://www.kaggle.com/jsaguiar/exploratory-analysis-with-seaborn
+
+https://www.datacamp.com/community/tutorials/pandas-tutorial-dataframe-python
+https://www.datacamp.com/community/tutorials/seaborn-python-tutorial?utm_source=adwords_ppc&utm_campaignid=1455363063&utm_adgroupid=65083631748&utm_device=c&utm_keyword=&utm_matchtype=b&utm_network=g&utm_adpostion=1t1&utm_creative=278443377095&utm_targetid=aud-517318241987:dsa-473406580275&utm_loc_interest_ms=&utm_loc_physical_ms=9062114&gclid=Cj0KCQjwuNbsBRC-ARIsAAzITucJZAHkBsvzW49xAUztQJ1S4SO3hPfkio03GcFh6Z0FvY7A6UgATqgaAptDEALw_wcB
+
+https://www.kaggle.com/kralmachine/seaborn-tutorial-for-beginners
 """
 
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+from collections import Counter
 from subprocess import check_output
 print(check_output(["ls", "../datasets"]).decode("utf8"))
 
@@ -24,11 +30,10 @@ percentageOver25CompletedHighSchool = pd.read_csv('../datasets/PercentOver25Comp
 
 shareRaceByCity=pd.read_csv('../datasets/ShareRaceByCity.csv', encoding="windows-1252");
 
-policeKillingsUs=pd.read_csv('../datasets/PoliceKillingsUS.csv', encoding="windows-1252");
+kill=pd.read_csv('../datasets/PoliceKillingsUS.csv', encoding="windows-1252");
 
-## Data visualization for percentagePeopleBelowPovertyLevel
-print(percentagePeopleBelowPovertyLevel.info())
-
+## Poverty rate of each state
+"""
 percentagePeopleBelowPovertyLevel.poverty_rate.replace(['-'],0.0,inplace=True);
 percentagePeopleBelowPovertyLevel.poverty_rate = percentagePeopleBelowPovertyLevel.poverty_rate.astype(float)
 
@@ -41,20 +46,45 @@ for i in area_list:
     area_poverty_ratio.append(area_poverty_rate );    
     
 data= pd.DataFrame({'area_list':area_list,'area_poverty_ratio':area_poverty_ratio});
-print(data.head())
+
+new_index =  (data['area_poverty_ratio'].sort_values(ascending=False)).index.values
+sorted_data= data.reindex(new_index)
 
 #visualisation
 #plt.figure(figsize=(15,10))
-sns.barplot(x="area_list",y="area_poverty_ratio",data=data)   
+sns.barplot(x=sorted_data["area_list"],y=sorted_data["area_poverty_ratio"]
+    ,data=sorted_data)
+
+plt.xlabel('States');
+plt.ylabel('Poverty Rates');
+plt.title('Poverty rates per given States');
+"""    
+### Most common 15 Name or Surname of killed people
+"""
+separate = kill.name[kill.name != 'TK TK'].str.split();
+a,b =zip(*separate)
+name_list= a+b
+name_count = Counter(name_list)    
+most_common_name =  name_count.most_common(15)
+x,y = zip(*most_common_name)
+
+x=list(x)
+y=list(y)
+
+plt.figure(figsize=(15,10))
+sns.barplot(x=x,y=y,palette=sns.cubehelix_palette(len(x)))
+plt.xlabel("Name or Surname of people killed")
+plt.ylabel("Frequency")
+plt.title('15 Most common name or surname of killed people')
+"""
+#High school graduation rate of the population that is older
+# than 25 in states
+
+print(percentageOver25CompletedHighSchool.head())
     
-    
-    
-    
-    
-    
-    
-    
-    
+percentageOver25CompletedHighSchool.percent_completed_hs.replace(['-'],0.0,inplace=True)
+#percentageOver25CompletedHighSchool.percent_completed_hs=percentageOver25CompletedHighSchool.percent_completed_hs.astype(float)    
+
     
     
     
